@@ -1,12 +1,13 @@
 from consts import honors, double_minors, rules, departments_courses, departments
-from student import Student
-from utils import get_courses_with_less_seats, remove_students_till_the_first_assigned_to_courses_with_less_seats
+from classes.student import Student
+from utils import get_courses_with_less_seats, remove_students_till_the_first_assigned_to_courses_with_less_seats, get_hdm_studnets
 import re
 
 def allot_hdms(students: list[Student]):
   department_wise_allowed_hdms = get_department_wise_allowed_hdms()
 
-  students_for_hdm = list(filter(lambda student: float(student.cgpa) >= 7.5 and (student.interested_in_honors or student.interested_in_dm), students))
+
+  students_for_hdm = get_hdm_studnets(students)
   print("Total HDM students: {}".format(len(students_for_hdm)))
   
 
@@ -46,16 +47,6 @@ def allot_hdms(students: list[Student]):
 
         honor_allotments = {k:v for k, v in allotments_combined.items() if re.match(r"H\d+", k)}
         dm_allotments = {k:v for k, v in allotments_combined.items() if re.match(r"DM\d+", k)}
-
-        print("\n\nAfter removing")
-        print("Honors: ", {k:len(v) for k,v in honor_allotments.items()})
-        print("Double Minors: ", {k:len(v) for k,v in dm_allotments.items()})
-        remaining_students = 0
-        for k,v in honor_allotments.items():
-          remaining_students += len(v)
-        for k,v in dm_allotments.items():
-          remaining_students += len(v)
-        print("Remaining Students: ", remaining_students)
       else:
         break
     else:
@@ -90,11 +81,11 @@ def make_hdm_allotments(students, department_wise_allowed_hdms, honor_allotments
 def get_department_wise_allowed_hdms():
   department_wise_allowed_hdms = {}
     
-  core_dms = []
-  core_honors = []
-  for cd in rules["core_departments"]:
-    core_dms.extend(departments_courses[cd]["DM"])
-    core_honors.extend(departments_courses[cd]["HONORS"])
+  computing_dms = []
+  computing_honors = []
+  for cd in rules["computing_departments"]:
+    computing_dms.extend(departments_courses[cd]["DM"])
+    computing_honors.extend(departments_courses[cd]["HONORS"])
 
 
   all_dms = []
@@ -102,9 +93,9 @@ def get_department_wise_allowed_hdms():
     all_dms.extend(departments_courses[d]["DM"])
 
   for d in departments.keys():
-    if d in rules["core_departments"]:
-      honors = core_honors
-      dms = list(set(all_dms) - set(core_dms))
+    if d in rules["computing_departments"]:
+      honors = computing_honors
+      dms = list(set(all_dms) - set(computing_dms))
     else:
       honors = departments_courses[d]['HONORS']
       dms = list(set(all_dms) - set(departments_courses[d]['DM']))

@@ -136,10 +136,11 @@ departments_courses = {
 
 
 rules = {
-  "core_departments": ["D1", "D2", "D3"],
-  "same_dept_mdms_allowed": {
-    "core": 2,
-    "others": 3
+  "computing_departments": ["D1", "D2", "D3"],
+  "total_mdms_allowed": 5,
+  "same_branch_mdms_allowed": {
+    "computing": 2,
+    "core": 3
   },
   "sem_wise_max_credits": {
     1:22, 
@@ -163,17 +164,20 @@ mdm_fieldnames = []
 for i in range(0,len(mdms)):
   mdm_fieldnames.append(f'mdm_choice_{i+1}')
 
-honor_fieldnames = []
-for i in range(0,len(honors)):
-  honor_fieldnames.append(f'honor_choice_{i+1}')
-
-dm_filednames = []
-for i in range(0,len(double_minors)):
-  dm_filednames.append(f'dm_choice_{i+1}')
-
 oe_fieldnames = []
 for i in range(0,len(open_electives)):
   oe_fieldnames.append(f'oe_choice_{i+1}')
 
-fieldnames = basic_fieldnames + mdm_fieldnames + honor_fieldnames + dm_filednames + oe_fieldnames
+hdm_fieldnames = []
+for i in range(0,len(double_minors)+len(honors)):
+  hdm_fieldnames.append(f'hdm_choice_{i+1}')
 
+
+fieldnames = basic_fieldnames + mdm_fieldnames + oe_fieldnames + hdm_fieldnames 
+
+
+course_types = {
+  1: "oe",
+  2: "hdm",
+  3: "mdm"
+}

@@ -66,12 +66,12 @@ def get_cgpa():
 
 # def get_random_honor(dept):
 #   valid_honors = []
-#   if dept in core_depts:
+#   if dept in computing_depts:
 #     valid_honors.extend(departments_courses[dept]['HONORS'])
 
 #     invalid_honors = []
 #     for d in departments:
-#       if d not in core_depts:
+#       if d not in computing_depts:
 #         invalid_honors.extend(departments_courses[d]['HONORS'])
 #   else:
 #     valid_honors = departments_courses[dept]['HONORS']
@@ -94,7 +94,7 @@ def get_cgpa():
 #   valid_dms, invalid_dms = [], []
 #   for d in departments:
 #     if d != dept:
-#       if dept not in core_depts or dept in core_depts and d not in core_depts:
+#       if dept not in computing_depts or dept in computing_depts and d not in computing_depts:
 #         valid_dms.extend(departments_courses[d]['DM'])
 #       else:
 #         invalid_dms.extend(departments_courses[d]['DM'])
@@ -146,15 +146,14 @@ if __name__ == '__main__':
 
 
       mdm_choices = get_course_choices('mdm')
-      double_minor_choices  = get_course_choices('dm')
-      honor_choices = get_course_choices('honors')
+      hdm_choices  =  get_course_choices('honors') + get_course_choices('dm')
+      shuffle(hdm_choices)
       open_elective_choices = get_course_choices('oe')
 
       student_data = [name, dept, email, stud_roll, semester, is_all_clear_str, credits_earned, cgpa, interested_in_honors, interested_in_dm]
       student_data.extend(mdm_choices)
-      student_data.extend(honor_choices)
-      student_data.extend(double_minor_choices)
       student_data.extend(open_elective_choices)
+      student_data.extend(hdm_choices)
       writer.writerow({k:v for k,v in zip(fieldnames, student_data)})
 
   
