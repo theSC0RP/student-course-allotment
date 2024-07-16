@@ -36,9 +36,14 @@ def allot_mdms(students: list[Student], computing_mdms: list):
 def make_mdm_allotments(students: list[Student], mdm_allotments: dict, computing_mdms: list[str], mdms_with_less_seats = []):
   for i,student in enumerate(students):
     for mdm in student.mdm_choices:
+
+
       if len(mdm_allotments[mdm]) <= rules['max_students_in_class'] and mdm not in mdms_with_less_seats and mdm not in student.prev_mdms and get_does_mdm_follow_branch_rules(student, mdm, computing_mdms):
-        mdm_allotments[mdm].append(i)
-        break
+        mdm_prereqs = mdms[mdm]['prereqs']
+
+        if (len(mdm_prereqs) > 0  and are_course_prereqs_satisfied(student, mdm)) or len(mdm_prereqs) == 0:
+          mdm_allotments[mdm].append(i)
+          break
       else:
         continue
 
@@ -55,3 +60,9 @@ def get_does_mdm_follow_branch_rules(student: Student, mdm: str, computing_mdms:
       return True if student.total_prev_same_branch_mdms < rules['same_branch_mdms_allowed']['core'] else False
     else:
       return True if student.total_prev_same_branch_mdms < rules['total_mdms_allowed'] - rules['same_branch_mdms_allowed']['core'] else False
+    
+def are_course_prereqs_satisfied(student: Student, mdm_prereqs):
+  if len(set(mdm_prereqs).intersection(set(student.prev_mdms))) == len(mdm_prereqs):
+    return True
+  
+  return False
