@@ -57,3 +57,19 @@ This helper function checks if a given MDM follows the branch-specific rules for
 - Verifies if the MDM follows the allowed number of same-branch and total MDMs for the student based on their department.
 
 ---
+
+### 4. `are_course_prereqs_satisfied(student: Student, mdm_prereqs: list[str])`
+This helper function checks if the pre-requisite courses are completed by the student.
+
+**Parameters:**
+- `student` (Student): The student object being considered for MDM allocation.
+- `mdm_prereqs` (list[str]): List of MDM course codes that are pre-requisites for a course.
+
+**Returns:**
+- `bool`: True if the student has completed the pre-requisite courses, otherwise False.
+
+**Process:**
+- Returns True if the length of intersection between the student's previous mdm list (prev_mdms) and the mdm_prereqs is equal to the mdm_prereqs, otherwise False.
+
+---
+
