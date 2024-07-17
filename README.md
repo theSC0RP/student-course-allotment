@@ -8,7 +8,7 @@ Python: 3.12.1
 1. Create a virtual environment using `pipenv`
 2. Install the dependencies from the requirements.txt file using `pip install -r requirements.txt`
 3. Make necessary changes in the `consts.py` file
-4. Run the driver using `python3 driver.py`
+4. Run the driver code using `python3 driver.py`
   a) Provide the csv file that contains the student data including their course preferences
   b) Select the course for which you want to do the allotment.
   c) Provide a filename to save the geneerated allotment csv files.
